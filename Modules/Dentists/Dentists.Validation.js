@@ -1,8 +1,7 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const dentistRegisterValidationSchema = Joi.object({
-  createdBy: Joi.string(),
-  type: Joi.string().valid('Indvidual', 'Hospital', 'Clinic').required(),
+  type: Joi.string().valid("Indvidual", "Hospital", "Clinic").required(),
   name: Joi.string().required(),
   phone: Joi.string()
     .required()
@@ -12,8 +11,7 @@ const dentistRegisterValidationSchema = Joi.object({
 });
 
 const dentistUpdateValidationSchema = Joi.object({
-  createdBy: Joi.string(),
-  type: Joi.string().valid('Indvidual', 'Hospital', 'Clinic'),
+  type: Joi.string().valid("Indvidual", "Hospital", "Clinic"),
   name: Joi.string(),
   phone: Joi.string().pattern(/[0-9]+/),
   address: Joi.string(),
