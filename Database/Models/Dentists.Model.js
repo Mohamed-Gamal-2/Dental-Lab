@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 const dentistsSchema = new Schema(
   {
+    createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admin",
+    required: true,
+  },
     type: {
       type: String,
       required: true,

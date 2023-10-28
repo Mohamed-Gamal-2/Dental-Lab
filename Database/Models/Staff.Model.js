@@ -4,6 +4,11 @@ const { Schema } = mongoose;
 
 const staffSchema = new Schema(
   {
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "Admin",
+      required: true,
+    },
     ssn: {
       type: Number,
       unique: true,

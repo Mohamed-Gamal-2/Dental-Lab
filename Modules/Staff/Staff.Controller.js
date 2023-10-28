@@ -1,3 +1,9 @@
+import adminModel from "../../Database/Models/Admin.Model.js";
+import staffModel from "../../Database/Models/Staff.Model.js";
+
+
+
+
 function getAllStaff(req, res) {
   try {
     res.status(200).json({ message: "welcome" });

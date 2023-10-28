@@ -1,4 +1,7 @@
+import adminModel from "../../Database/Models/Admin.Model.js";
 import DentistsModel from "../../Database/Models/Dentists.Model.js";
+
+
 function getAllDentists(req, res) {
   try {
     res.status(200).json({ status: "Success", data: "Get all" });
