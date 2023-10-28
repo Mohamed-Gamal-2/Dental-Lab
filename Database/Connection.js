@@ -1,28 +1,29 @@
 import managerModel from "./Models/Manager.Model.js";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-
-
-const createManager = async ()=>{
+const createManager = async () => {
   const managerCount = await managerModel.countDocuments();
 
-if (managerCount === 0) {
-await managerModel.create({
-userName: "admin",
-password: "admin",
-email:"admin@admin.com"
-})
-console.log(`there were no managers, created one!, userName:"admin", password:"admin"`)}}
-
+  if (managerCount === 0) {
+    await managerModel.create({
+      userName: "admin",
+      password: "admin",
+      email: "admin@admin.com",
+    });
+    console.log(
+      `there were no managers, created one!, userName:"admin", password:"admin"`
+    );
+  }
+};
 
 const connection = () => {
   mongoose
+    .connect(process.env.DB_URI)
+    .then((conn) => {
+      console.log(`Database Connected ${conn.connection.host}`);
 
-    .connect("mongodb://127.0.0.1:27017/DentalLabDB")
-    .then(() => {
-      console.log("Database Connected");
-      
-      createManager()
+      createManager();
     })
     .catch((err) => {
       console.log(err);
