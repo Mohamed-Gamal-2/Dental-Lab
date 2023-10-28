@@ -1,3 +1,9 @@
+import adminModel from "../../Database/Models/Admin.Model.js";
+import jobModel from "../../Database/Models/Jobs.Model.js";
+
+
+
+
 function allJobs (req,res){
     try {
         res.status(200).json({status:"success", data:"all Jobs"})
