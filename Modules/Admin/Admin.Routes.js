@@ -6,8 +6,8 @@ import { adminRegisterValidationSchema, adminSignInValidationSchema, adminUpdate
 const adminRoutes = express.Router();
 
 adminRoutes.get("/admin/all",auth, getAllAdmins);
-adminRoutes.get("/admin/id", auth,getOneAdmin);
-adminRoutes.post("/admin/add",validation(adminRegisterValidationSchema), addAdmin);
+adminRoutes.get("/admin/:id", auth,getOneAdmin);
+adminRoutes.post("/admin/add",[auth,validation(adminRegisterValidationSchema)], addAdmin);
 adminRoutes.post("/admin/signin",validation(adminSignInValidationSchema), signInAdmin);
 adminRoutes.patch("/admin/:id",[auth,validation(adminUpdateValidationSchema)], updateAdmin);
 adminRoutes.delete("/admin/:id",auth, deleteAdmin);

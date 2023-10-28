@@ -58,8 +58,8 @@ const addManager = async(req, res) =>{
 
   const hashedPassword = bcrypt.hashSync(req.body.password, 4);
     const addedManager= await managerModel.create({...req.body,password: hashedPassword,});
-    console.log("Manager added successfully", addedManager)
-    return res.status(200).json({ message: "Manager added successfully", addedManager})
+    console.log("manager added successfully", addedManager)
+    return res.status(200).json({ message: "manager added successfully", addedManager})
   } catch (err) {
     console.log("catch error: ",err);
     return res.status(400).json({ message: "catch error: ",err });
@@ -104,8 +104,14 @@ const updateManager = async (req, res) =>{
       console.log("user not authorized")
       return res.status(401).json({ message: "user not authorized" });
     }
+    const managerId = req.param.id
+    const foundedManager = await managerModel.findById(managerId)
+    if(!foundedManager){
+      console.log("manager not found")
+      return res.status(401).json({ message: "manager not found" });
+    }
     const {email,userName,password}=req.body
-    const updatedManager = await managerModel.findByIdAndUpdate(userId,{email : email? email : targetedUser.email,userName: userName? userName : targetedUser.userName,password:password? bcrypt.hashSync(password, 4) : targetedUser.password},{ new: true })
+    const updatedManager = await managerModel.findByIdAndUpdate(managerId,{email : email? email : targetedUser.email,userName: userName? userName : targetedUser.userName,password:password? bcrypt.hashSync(password, 4) : targetedUser.password},{ new: true })
     console.log("manager updated successfully: ", updatedManager)
     return res.status(200).json({message: "manager updated successfully", updatedManager})
   } catch (err) {
@@ -122,7 +128,13 @@ const deleteManager = async (req, res) =>{
       console.log("user not authorized")
       return res.status(401).json({ message: "user not authorized" });
     }
-    const deletedManager = await managerModel.findByIdAndDelete(userId)
+    const managerId = req.param.id
+    const foundedManager = await managerModel.findById(managerId)
+    if(!foundedManager){
+      console.log("manager not found")
+      return res.status(401).json({ message: "manager not found" });
+    }
+    const deletedManager = await managerModel.findByIdAndDelete(managerId)
     console.log("manager deleted successfully", deletedManager)
     return res.status(200).json({message: "manager deleted successfully", deletedManager})
   } catch (err) {
