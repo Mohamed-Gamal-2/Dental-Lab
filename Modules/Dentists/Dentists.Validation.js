@@ -1,23 +1,25 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const dentistRegisterValidationSchema = Joi.object({
-  createdBy: Joi.string(),
-  type: Joi.string().valid('Indvidual', 'Hospital', 'Clinic').required(),
-  name: Joi.string().required(),
+  type: Joi.string().valid("Indvidual", "Hospital", "Clinic").required(),
+  name: Joi.string().required().min(3).max(30),
   phone: Joi.string()
-    .required()
-    .pattern(/[0-9]+/),
-  address: Joi.string().required(),
-  email: Joi.string().email().required(),
+    .pattern(/01(0|1|2|5)[0-9]{8}/)
+    .required(),
+  address: Joi.string().min(4).required(),
+  email: Joi.string()
+    .pattern(/^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/)
+    .required(),
 });
 
 const dentistUpdateValidationSchema = Joi.object({
-  createdBy: Joi.string(),
-  type: Joi.string().valid('Indvidual', 'Hospital', 'Clinic'),
-  name: Joi.string(),
-  phone: Joi.string().pattern(/[0-9]+/),
-  address: Joi.string(),
-  email: Joi.string().email(),
+  type: Joi.string().valid("Indvidual", "Hospital", "Clinic"),
+  name: Joi.string().min(3).max(30),
+  phone: Joi.string().pattern(/01(0|1|2|5)[0-9]{8}/),
+  address: Joi.string().min(4),
+  email: Joi.string().pattern(
+    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/
+  ),
 });
 
 export { dentistRegisterValidationSchema, dentistUpdateValidationSchema };
