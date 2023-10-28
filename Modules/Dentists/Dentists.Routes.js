@@ -18,13 +18,13 @@ dentistsRoutes.get("/dentist/all", auth, getAllDentists);
 dentistsRoutes.delete("/dentist/:id", auth, deleteDentist);
 dentistsRoutes.patch(
   "/dentist/:id",
-  [auth, validation(dentistUpdateValidationSchema)],
+  [auth, validation(dentistUpdateValidationSchema, "body")],
   updateDentist
 );
 dentistsRoutes.get("/dentist/:id", auth, getDentist);
 dentistsRoutes.post(
   "/dentist/add",
-  validation(dentistRegisterValidationSchema),
+  validation(dentistRegisterValidationSchema, "body"),
   addDentist
 );
 
