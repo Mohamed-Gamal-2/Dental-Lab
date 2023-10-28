@@ -69,11 +69,20 @@ const updataStaff = async (req, res, next) => {
 };
 
 const deleteStaff = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const isFound = await staffModel.findById(id);
-  if (isFound) {
-    const staff = await staffModel.findByIdAndDelete(id);
-    res.status(204).json({ status: "success" });
+  const decoded = jwt.verify(req.headers.token, "bl7 5ales");
+  const { id: creatorId } = decoded;
+  const admin = await adminModel.findById(creatorId);
+  if (admin) {
+    const { id } = req.params;
+    const isFound = await staffModel.findById(id);
+    if (isFound) {
+      const staff = await staffModel.findByIdAndDelete(id);
+      res.status(204).json({ status: "success" });
+    } else {
+      res.status(404).json({ status: "Fail", message: "Staff not found" });
+    }
+  } else {
+    return next(new ApiError("Unauthorized", 401));
   }
   return next(new ApiError(`no staff for this id ${id}`, 404));
 });
