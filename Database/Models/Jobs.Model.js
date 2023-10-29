@@ -3,8 +3,12 @@ const jobSchema = new Schema(
   {
     createdBy: {
       type: mongoose.Types.ObjectId,
-      ref: 'Staff',
+      ref: 'Admin',
       required: true,
+    },
+    pationName:{
+      type:String,
+      required:true
     },
     serial: {
       type: Number,
@@ -66,7 +70,7 @@ const jobSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    materialOfPorclain: { type: String, required: true },
+    materialOfPorclain:String,
   },
   { timestamps: true }
 );
@@ -75,3 +79,5 @@ const jobSchema = new Schema(
 const jobModel = model('Job', jobSchema); // import in controlled.js
 
 export default jobModel;
+
+

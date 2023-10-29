@@ -11,6 +11,6 @@ jobsRoutes.delete("/job/:id",auth ,deleteJob);
 jobsRoutes.patch("/job/:id",[auth,validation(jobUpdateValidationSchema)],updateJob );
 jobsRoutes.get("/job/:id",auth,getJob );
 
-
+// 
 export default jobsRoutes;
 

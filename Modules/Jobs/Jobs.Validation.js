@@ -4,28 +4,44 @@ import Joi from 'joi';
 
 
 const jobRegisterValidationSchema = Joi.object({
-    createdBy: Joi.string(), 
+  createdBy: Joi.string(),
   serial: Joi.number().integer(),
-  doctorId: Joi.string().required(), 
-  typeOfWork: Joi.string().valid('PFM', 'Zircon').required(),
+  doctorId: Joi.string().required(),
+  pationName: Joi.string().required(),
+  typeOfWork: Joi.string().valid("PFM", "Zircon").required(),
   teethNumber: Joi.array()
-    .items(Joi.number().integer().min(1).max(32))
+  .items(Joi.number().integer().min(1).max(32))
+  .required(),
+  shade: Joi.string()
+  .valid(
+    "A1",
+    "A2",
+    "A3",
+    "A3.5",
+    "A4",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "C1",
+      "C2",
+      "C3",
+      "C4",
+      "D2",
+      "D3",
+      "D4"
+    )
     .required(),
-  shade: Joi.string().valid(
-    'A1', 'A2', 'A3', 'A3.5', 'A4',
-    'B1', 'B2', 'B3', 'B4',
-    'C1', 'C2', 'C3', 'C4',
-    'D2', 'D3', 'D4'
-  ).required(),
   deadLine: Joi.date().required(),
   price: Joi.number().required(),
   tryIn: Joi.boolean().required(),
-  materialOfPorclain: Joi.string().required() 
-  });
+  materialOfPorclain: Joi.string(),
+});
 
   const jobUpdateValidationSchema = Joi.object({
     createdBy: Joi.string(), 
   serial: Joi.number().integer(),
+  pationName: Joi.string(),
   doctorId: Joi.string(), 
   typeOfWork: Joi.string().valid('PFM', 'Zircon'),
   teethNumber: Joi.array()
