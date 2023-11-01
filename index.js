@@ -9,13 +9,14 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import ApiError from "./utils/apiError.js";
 import globalError from "./middleware/errorMiddleware.js";
+import cors from "cors";
 dotenv.config({ path: "config.env" });
-
 const server = express();
 if (process.env.NODE_ENV === "development") {
   server.use(morgan("dev"));
   console.log(`mode : ${process.env.NODE_ENV}`);
 }
+server.use(cors());
 server.use(express.json());
 server.use(dentistsRoutes);
 server.use(jobsRoutes);
