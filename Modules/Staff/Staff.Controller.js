@@ -26,18 +26,22 @@ const getOneStaff = asyncHandler(async (req, res, next) => {
 });
 
 const addStaff = asyncHandler(async (req, res, next) => {
-  const decoded = jwt.verify(req.headers.token, "bl7 5ales");
-  const { id: creatorId } = decoded;
-  const admin = await adminModel.findById(creatorId);
-  if (admin) {
-    const newuser = await staffModel.insertMany([
-      { ...req.body, createdBy: creatorId },
-    ]);
-    res
-      .status(200)
-      .json({ status: "Success", message: "User added", data: newuser });
-  } else {
-    return next(new ApiError("Unauthorized", 401));
+  try {
+    const decoded = jwt.verify(req.headers.token, "bl7 5ales");
+    const { id: creatorId } = decoded;
+    const admin = await adminModel.findById(creatorId);
+    if (admin) {
+      const newuser = await staffModel.insertMany([
+        { ...req.body, createdBy: creatorId },
+      ]);
+      res
+        .status(200)
+        .json({ status: "Success", message: "User added", data: newuser });
+    } else {
+      res.status(401).json({ status: "Fail", message: "Unauthorized" });
+    }
+  } catch (error) {
+    res.status(400).json({ status: "Fail", message: error });
   }
 });
 
