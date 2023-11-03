@@ -25,7 +25,7 @@ const getOneStaff = asyncHandler(async (req, res, next) => {
   }
 });
 
-const addStaff = asyncHandler(async (req, res, next) => {
+const addStaff = async (req, res) => {
   try {
     const decoded = jwt.verify(req.headers.token, "bl7 5ales");
     const { id: creatorId } = decoded;
@@ -43,7 +43,7 @@ const addStaff = asyncHandler(async (req, res, next) => {
   } catch (error) {
     res.status(400).json({ status: "Fail", message: error });
   }
-});
+};
 
 const updataStaff = async (req, res, next) => {
   try {
