@@ -54,10 +54,11 @@ const updataStaff = async (req, res, next) => {
       const { id } = req.params;
       const isFound = await staffModel.findById(id);
       if (isFound) {
-        const { name, salary, jobTitle } = req.body;
         const staff = await staffModel.findOneAndUpdate(
-          { _id: id },
-          { name, salary, jobTitle },
+          id,
+          {
+            ...req.body,
+          },
           { new: true }
         );
         res.status(200).json({ status: "success", data: staff });
