@@ -4,13 +4,14 @@ import {
   deleteDentist,
   getAllDentists,
   getDentist,
-  updateDentist,
+  updateDentist,loginDentist
 } from "./Dentists.Controller.js";
 import validation from "../../middleware/validation.js";
 import auth from "../../middleware/auth.js";
 import {
   dentistRegisterValidationSchema,
   dentistUpdateValidationSchema,
+  dentistLoginValidationSchema
 } from "./Dentists.Validation.js";
 const dentistsRoutes = express.Router();
 
@@ -22,10 +23,8 @@ dentistsRoutes.patch(
   updateDentist
 );
 dentistsRoutes.get("/dentist/:id", auth, getDentist);
-dentistsRoutes.post(
-  "/dentist/add",
-  validation(dentistRegisterValidationSchema, "body"),
-  addDentist
-);
+dentistsRoutes.post("/dentist/add",validation(dentistRegisterValidationSchema, "body"),addDentist);
+dentistsRoutes.post("/dentist/login",validation(dentistLoginValidationSchema, "body"),loginDentist);
+
 
 export default dentistsRoutes;
