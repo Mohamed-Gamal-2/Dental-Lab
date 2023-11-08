@@ -99,8 +99,10 @@ async function addDentist(req, res) {
 
 async function loginDentist(req, res){
   try {
-    const decoded = jwt.verify(req.headers.token, "bl7 5ales");
-    if(!decoded){
+
+   
+
+    if(!req.headers.token){
       const {email, password}= req.body
       let foundedDentist = await DentistsModel.findOne({ email });
       if(!foundedDentist){
@@ -117,6 +119,11 @@ async function loginDentist(req, res){
         const token = jwt.sign({ id: foundedDentist.id }, 'bl7 5ales');
         console.log('logged in successfully', token);
         return res.status(200).json({ message: 'logged in successfully', token, foundedDentist, jobs });
+    }
+    const decoded = jwt.verify(req.headers.token, "bl7 5ales");
+    if(!decoded){
+      console.log("user not authorized")
+        return res.status(401).json({message: "user not authorized"})
     }
     let foundedDentist = await DentistsModel.findById(decoded.id);
     if(!foundedDentist){
