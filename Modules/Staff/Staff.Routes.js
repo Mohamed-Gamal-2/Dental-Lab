@@ -9,13 +9,24 @@ import {
 
 import validation from "../../middleware/validation.js";
 import auth from "../../middleware/auth.js";
-import { staffRegisterValidationSchema, staffUpdateValidationSchema } from "./Staff.Validation.js";
+import {
+  staffRegisterValidationSchema,
+  staffUpdateValidationSchema,
+} from "./Staff.Validation.js";
 const staffRoutes = express.Router();
 
-staffRoutes.get("/staff/all",auth, getAllStaff);
-staffRoutes.get("/staff/id",auth, getOneStaff);
-staffRoutes.post("/staff/add",[auth,validation(staffRegisterValidationSchema)], addStaff);
-staffRoutes.patch("/staff/:id",[auth,validation(staffUpdateValidationSchema)], updataStaff);
-staffRoutes.delete("/staff/:id",auth, deleteStaff);
+staffRoutes.get("/staff/all", auth, getAllStaff);
+staffRoutes.get("/staff/:id", auth, getOneStaff);
+staffRoutes.post(
+  "/staff/add",
+  [auth, validation(staffRegisterValidationSchema)],
+  addStaff
+);
+staffRoutes.patch(
+  "/staff/:id",
+  [auth, validation(staffUpdateValidationSchema)],
+  updataStaff
+);
+staffRoutes.delete("/staff/:id", auth, deleteStaff);
 
 export default staffRoutes;

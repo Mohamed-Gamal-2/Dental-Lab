@@ -1,4 +1,5 @@
 import adminModel from "../../Database/Models/Admin.Model.js";
+import DentistsModel from "../../Database/Models/Dentists.Model.js";
 import jobModel from "../../Database/Models/Jobs.Model.js";
 import jwt from "jsonwebtoken";
 
@@ -32,7 +33,12 @@ async function addJob(req, res) {
             ...req.body,
             createdBy,
           });
-
+        let dentist = await DentistsModel.findByIdAndUpdate(
+          req.body.doctorId,
+          { $push: { cases: newJob[0]._id } },
+          { new: true }
+        );
+         console.log("dentist",dentist)
       res
         .status(200)
         .json({
