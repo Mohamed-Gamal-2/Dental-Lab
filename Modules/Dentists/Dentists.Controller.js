@@ -80,16 +80,16 @@ async function addDentist(req, res) {
     const { id: creatorId } = decoded;
     const admin = await adminModel.findById(creatorId);
     if (admin) {
-      
+      let newuser;
       if(req.body.password){
 
         const hashedPassword = bcrypt.hashSync(req.body.password, 4);
-        const newuser = await DentistsModel.insertMany([
+         newuser = await DentistsModel.insertMany([
           { ...req.body, createdBy: creatorId, password: hashedPassword },
         ]);
       }
       else{
-        const newuser = await DentistsModel.insertMany([
+         newuser = await DentistsModel.insertMany([
           { ...req.body, createdBy: creatorId },
         ]);
       }
@@ -99,7 +99,8 @@ async function addDentist(req, res) {
     } else {
       res.status(401).json({ status: "Fail", message: "Unauthorized" });
     }
-  } catch (error) {
+  } 
+  catch (error) {
     res.status(400).json({ status: "Fail", message: error });
   }
 }
