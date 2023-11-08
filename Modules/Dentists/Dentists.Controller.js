@@ -87,9 +87,8 @@ async function addDentist(req, res) {
     const { id: creatorId } = decoded;
     const admin = await adminModel.findById(creatorId);
     if (admin) {
-      const hashedPassword = bcrypt.hashSync(req.body.password, 4);
       const newuser = await DentistsModel.insertMany([
-        { ...req.body, createdBy: creatorId, password: hashedPassword },
+        { ...req.body, createdBy: creatorId },
       ]);
       res
         .status(200)
