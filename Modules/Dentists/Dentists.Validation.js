@@ -10,6 +10,7 @@ const dentistRegisterValidationSchema = Joi.object({
   email: Joi.string()
     .pattern(/^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/)
     .required(),
+    password: Joi.string().pattern(/^[A-Z][a-zA-Z]*$/)
 });
 
 const dentistUpdateValidationSchema = Joi.object({
@@ -22,4 +23,11 @@ const dentistUpdateValidationSchema = Joi.object({
   ),
 });
 
-export { dentistRegisterValidationSchema, dentistUpdateValidationSchema };
+const dentistLoginValidationSchema = Joi.object({
+  email: Joi.string().pattern(
+    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/
+  ),
+  password: Joi.string().pattern(/^[A-Z][a-zA-Z]*$/)
+});
+
+export { dentistRegisterValidationSchema, dentistUpdateValidationSchema, dentistLoginValidationSchema };

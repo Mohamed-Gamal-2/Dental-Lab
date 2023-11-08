@@ -1,6 +1,8 @@
 import adminModel from "../../Database/Models/Admin.Model.js";
 import DentistsModel from "../../Database/Models/Dentists.Model.js";
+import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
+import jobModel from "../../Database/Models/Jobs.Model.js";
 
 async function getAllDentists(req, res) {
   try {
@@ -79,14 +81,17 @@ async function getDentist(req, res) {
     res.status(400).json({ status: "Fail", message: error });
   }
 }
+
+
 async function addDentist(req, res) {
   try{
     const decoded = jwt.verify(req.headers.token, "bl7 5ales");
     const { id: creatorId } = decoded;
     const admin = await adminModel.findById(creatorId);
     if (admin) {
+      const hashedPassword = bcrypt.hashSync(req.body.password, 4);
       const newuser = await DentistsModel.insertMany([
-        { ...req.body, createdBy: creatorId },
+        { ...req.body, createdBy: creatorId, password: hashedPassword },
       ]);
       res
         .status(200)
@@ -99,4 +104,48 @@ async function addDentist(req, res) {
   }
 }
 
-export { getAllDentists, deleteDentist, updateDentist, getDentist, addDentist };
+
+
+async function loginDentist(req, res){
+  try {
+
+   
+
+    if(!req.headers.token){
+      const {email, password}= req.body
+      let foundedDentist = await DentistsModel.findOne({ email });
+      if(!foundedDentist){
+        console.log("no dentist found")
+        return res.status(401).json({message: "no dentist found"})
+      }
+      const matched = bcrypt.compareSync(password,foundedDentist.password);
+      if(!matched){
+        console.log("invalid email or password")
+        return res.status(401).json({message: "invalid email or password"})
+          
+        }
+           const jobs = await jobModel.find({doctorId:foundedDentist.id})
+        const token = jwt.sign({ id: foundedDentist.id }, 'bl7 5ales');
+        console.log('logged in successfully', token);
+        return res.status(200).json({ message: 'logged in successfully', token, foundedDentist, jobs });
+    }
+    const decoded = jwt.verify(req.headers.token, "bl7 5ales");
+    if(!decoded){
+      console.log("user not authorized")
+        return res.status(401).json({message: "user not authorized"})
+    }
+    let foundedDentist = await DentistsModel.findById(decoded.id);
+    if(!foundedDentist){
+      console.log("no dentist found")
+        return res.status(401).json({message: "no dentist found"})
+    }
+    const jobs = await jobModel.find({doctorId:foundedDentist.id})
+    return res.status(200).json({ message: ' data received successfully', foundedDentist, jobs });
+  
+  } catch (err) {
+    console.log("catch error: ",err);
+    return res.status(400).json({ message: "catch error: ",err });
+  }
+}
+
+export { getAllDentists, deleteDentist, updateDentist, getDentist, addDentist,loginDentist};
