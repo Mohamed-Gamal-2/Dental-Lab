@@ -3,10 +3,10 @@ const { Schema } = mongoose;
 const dentistsSchema = new Schema(
   {
     createdBy: {
-    type: mongoose.Types.ObjectId,
-    ref: "Admin",
-    required: true,
-  },
+      type: mongoose.Types.ObjectId,
+      ref: "Admin",
+      required: true,
+    },
     type: {
       type: String,
       required: true,
@@ -33,9 +33,14 @@ const dentistsSchema = new Schema(
       type: String,
       unique: true,
     },
+    cases: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Job",
+      },
+    ],
       password: {
         type: String,
-        required: true
       }
   },
   { timestamps: true }

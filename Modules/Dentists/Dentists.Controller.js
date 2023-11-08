@@ -6,7 +6,7 @@ import jobModel from "../../Database/Models/Jobs.Model.js";
 
 async function getAllDentists(req, res) {
   try {
-    const dentists = await DentistsModel.find();
+    const dentists = await DentistsModel.find().populate("cases");
     res.status(200).json({ status: "Success", data: dentists });
   } catch (error) {
     res.status(400).json({ status: "Fail", message: error });
@@ -17,12 +17,21 @@ async function deleteDentist(req, res) {
     const { id: dentistId } = req.params;
     const isFound = await DentistsModel.findById(dentistId);
     if (isFound) {
-      const deletedDentist = await DentistsModel.findByIdAndDelete(dentistId);
-      res.status(200).json({
-        status: "Success",
-        message: "Dentist Deleted",
-        data: deletedDentist,
-      });
+      if (!isFound.cases){
+        const deletedDentist = await DentistsModel.findByIdAndDelete(dentistId);
+        res.status(200).json({
+          status: "Success",
+          message: "Dentist Deleted",
+          data: deletedDentist,
+        });
+ 
+      }else{
+res.json({
+    status: "Fail",
+    message:
+      "Deletion of this dentist is not allowed as it is associated with jobs.",
+  });
+      }
     } else
       res.status(404).json({ status: "Fail", message: "Dentist not found" });
   } catch (error) {
@@ -75,7 +84,7 @@ async function getDentist(req, res) {
 
 
 async function addDentist(req, res) {
-  try {
+  try{
     const decoded = jwt.verify(req.headers.token, "bl7 5ales");
     const { id: creatorId } = decoded;
     const admin = await adminModel.findById(creatorId);
