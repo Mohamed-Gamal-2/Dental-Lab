@@ -117,7 +117,6 @@ async function addDentist(req, res) {
 
 async function loginDentist(req, res) {
   try {
-    if (!req.headers.token) {
       const { email, password } = req.body;
       let foundedDentist = await DentistsModel.findOne({ email });
       if (!foundedDentist) {
@@ -138,25 +137,31 @@ async function loginDentist(req, res) {
         foundedDentist,
         jobs,
       });
-    }
-    const decoded = jwt.verify(req.headers.token, "bl7 5ales");
-    if (!decoded) {
-      console.log("user not authorized");
-      return res.status(401).json({ message: "user not authorized" });
-    }
-    let foundedDentist = await DentistsModel.findById(decoded.id);
-    if (!foundedDentist) {
-      console.log("no dentist found");
-      return res.status(401).json({ message: "no dentist found" });
-    }
-    const jobs = await jobModel.find({ doctorId: foundedDentist.id });
-    return res
-      .status(200)
-      .json({ message: " data received successfully", foundedDentist, jobs });
   } catch (err) {
     console.log("catch error: ", err);
     return res.status(400).json({ message: "catch error: ", err });
   }
+}
+
+async function getDentistEndUser(req,res){
+try{
+
+  const decoded = req.decodedToken
+  let foundedDentist = await DentistsModel.findById(decoded.id);
+  if (!foundedDentist) {
+    console.log("no dentist found");
+    return res.status(401).json({ message: "no dentist found" });
+  }
+  const jobs = await jobModel.find({ doctorId: foundedDentist.id });
+  return res
+    .status(200)
+    .json({ message: " data received successfully", foundedDentist, jobs });
+
+}catch(err){
+  console.log("catch error: ", err);
+  return res.status(400).json({ message: "catch error: ", err });
+}
+
 }
 
 export {
@@ -166,4 +171,5 @@ export {
   getDentist,
   addDentist,
   loginDentist,
+  getDentistEndUser
 };
