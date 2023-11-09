@@ -146,8 +146,8 @@ async function loginDentist(req, res) {
 async function getDentistEndUser(req,res){
 try{
 
-  const decoded = req.decodedToken
-  let foundedDentist = await DentistsModel.findById(decoded.id);
+  const dentistId = req.decodedToken.id
+  let foundedDentist = await DentistsModel.findById(dentistId);
   if (!foundedDentist) {
     console.log("no dentist found");
     return res.status(401).json({ message: "no dentist found" });

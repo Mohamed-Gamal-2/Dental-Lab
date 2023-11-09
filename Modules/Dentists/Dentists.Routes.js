@@ -25,7 +25,7 @@ dentistsRoutes.patch(
 dentistsRoutes.get("/dentist/:id", auth, getDentist);
 dentistsRoutes.post("/dentist/add",validation(dentistRegisterValidationSchema, "body"),addDentist);
 dentistsRoutes.post("/dentist/login",validation(dentistLoginValidationSchema, "body"),loginDentist);
-dentistsRoutes.get("/dentist/getDentistEndUser",auth,getDentistEndUser);
+dentistsRoutes.get("/getDentistEndUser",auth,getDentistEndUser);
 
 
 export default dentistsRoutes;
