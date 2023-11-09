@@ -24,6 +24,11 @@ const jobSchema = new Schema(
       enum: ["PFM", "Zircon"],
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["cast", "build", "finish"],
+      required: true,
+    },
     teethNumber: [
       {
         type: String,
@@ -33,7 +38,7 @@ const jobSchema = new Schema(
 
     shade: {
       type: String,
-      required:true
+      required: true,
     },
     deadLine: {
       type: Date,
@@ -43,7 +48,7 @@ const jobSchema = new Schema(
       type: Number,
       required: true,
     },
-    comments: String ,
+    comments: String,
     tryIn: {
       type: Boolean,
       required: true,
