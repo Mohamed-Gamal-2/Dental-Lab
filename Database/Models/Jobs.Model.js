@@ -12,7 +12,6 @@ const jobSchema = new Schema(
     },
     serial: {
       type: Number,
-      unique: true,
       required: true,
     },
     doctorId: {
