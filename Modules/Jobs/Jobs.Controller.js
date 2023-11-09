@@ -17,13 +17,8 @@ async function allJobs (req,res){
 // add Job
 async function addJob(req, res) {
   try{
-    const {serial}=req.body
     const decoded = jwt.verify(req.headers.token, "bl7 5ales");
     const { id: createdBy } = decoded;
-    const JobFounded = await jobModel.findOne({serial});
-    if(JobFounded){
-      return res.status(401).json({ message: " This Serial is already exist" })
-    }else{
       const adminFounded = await adminModel.findById(createdBy)
     if(!adminFounded){
       console.log(" Not Allowed , You aren't Admin")
@@ -38,7 +33,6 @@ async function addJob(req, res) {
           { $push: { cases: newJob[0]._id } },
           { new: true }
         );
-         console.log("dentist",dentist)
       res
         .status(200)
         .json({
@@ -46,7 +40,7 @@ async function addJob(req, res) {
           message: "A New Job Added successfully",
           newJob
         });
-    }}
+    }
   } catch (error) {
     res.status(400).json({ status: "fail", message: "error",error });
   }
