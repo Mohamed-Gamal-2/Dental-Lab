@@ -97,8 +97,10 @@ async function addDentist(req, res) {
         ]);
       }
       else{
+       const newBody = {...req.body}
+       delete newBody.password
          newuser = await DentistsModel.insertMany([
-          { ...req.body, createdBy: creatorId },
+          { ...newBody, createdBy: creatorId },
         ]);
       }
       res
