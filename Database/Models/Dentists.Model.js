@@ -39,9 +39,9 @@ const dentistsSchema = new Schema(
         ref: "Job",
       },
     ],
-      password: {
-        type: String,
-      }
+    password: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
