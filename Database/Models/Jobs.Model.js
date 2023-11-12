@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from "mongoose";
 const jobSchema = new Schema(
   {
     createdBy: {
@@ -22,6 +22,7 @@ const jobSchema = new Schema(
     typeOfWork: {
       type: String,
       enum: ["PFM", "Zircon"],
+
       required: true,
     },
     status: {
@@ -58,8 +59,6 @@ const jobSchema = new Schema(
 );
 
 //........................Create Model.................................
-const jobModel = model('Job', jobSchema); // import in controlled.js
+const jobModel = model("Job", jobSchema); // import in controlled.js
 
 export default jobModel;
-
-
