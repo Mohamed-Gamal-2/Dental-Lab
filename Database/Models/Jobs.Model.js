@@ -1,14 +1,14 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from "mongoose";
 const jobSchema = new Schema(
   {
     createdBy: {
       type: mongoose.Types.ObjectId,
-      ref: 'Admin',
+      ref: "Admin",
       required: true,
     },
-    pationName:{
-      type:String,
-      required:true
+    pationName: {
+      type: String,
+      required: true,
     },
     serial: {
       type: Number,
@@ -17,12 +17,12 @@ const jobSchema = new Schema(
     },
     doctorId: {
       type: mongoose.Types.ObjectId,
-      ref: 'Dentist',
+      ref: "Dentist",
       required: true,
     },
     typeOfWork: {
       type: String,
-      enum: ['PFM', 'Zircon'],
+      enum: ["PFM", "Zircon"],
       required: true,
     },
     teethNumber: [
@@ -30,7 +30,7 @@ const jobSchema = new Schema(
         type: Number,
         validate: {
           validator: Number.isInteger,
-          message: 'Each value in teethNumber array must be an integer.',
+          message: "Each value in teethNumber array must be an integer.",
         },
         required: true,
         min: 1,
@@ -40,22 +40,22 @@ const jobSchema = new Schema(
     shade: {
       type: String,
       enum: [
-        'A1',
-        'A2',
-        'A3',
-        'A3.5',
-        'A4',
-        'B1',
-        'B2',
-        'B3',
-        'B4',
-        'C1',
-        'C2',
-        'C3',
-        'C4',
-        'D2',
-        'D3',
-        'D4',
+        "A1",
+        "A2",
+        "A3",
+        "A3.5",
+        "A4",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "D2",
+        "D3",
+        "D4",
       ],
     },
     deadLine: {
@@ -70,14 +70,12 @@ const jobSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    materialOfPorclain:String,
+    materialOfPorclain: String,
   },
   { timestamps: true }
 );
 
 //........................Create Model.................................
-const jobModel = model('Job', jobSchema); // import in controlled.js
+const jobModel = model("Job", jobSchema); // import in controlled.js
 
 export default jobModel;
-
-

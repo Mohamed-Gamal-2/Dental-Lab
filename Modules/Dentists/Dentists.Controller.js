@@ -12,17 +12,22 @@ async function getAllDentists(req, res) {
 }
 async function deleteDentist(req, res) {
   try {
-    const { id: dentistId } = req.params;
-    const isFound = await DentistsModel.findById(dentistId);
-    if (isFound) {
-      const deletedDentist = await DentistsModel.findByIdAndDelete(dentistId);
-      res.status(200).json({
-        status: "Success",
-        message: "Dentist Deleted",
-        data: deletedDentist,
-      });
-    } else
-      res.status(404).json({ status: "Fail", message: "Dentist not found" });
+    const decoded = jwt.verify(req.headers.token, "bl7 5ales");
+    const { id: creatorId } = decoded;
+    const admin = await adminModel.findById(creatorId);
+    if (admin) {
+      const { id: dentistId } = req.params;
+      const isFound = await DentistsModel.findById(dentistId);
+      if (isFound) {
+        const deletedDentist = await DentistsModel.findByIdAndDelete(dentistId);
+        res.status(200).json({
+          status: "Success",
+          message: "Dentist Deleted",
+          data: deletedDentist,
+        });
+      } else
+        res.status(404).json({ status: "Fail", message: "Dentist not found" });
+    } else res.status(401).json({ status: "Fail", message: "Unauthorized" });
   } catch (error) {
     res.status(400).json({ status: "Fail", message: error });
   }
