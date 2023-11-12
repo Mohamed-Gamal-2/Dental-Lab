@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const jobRegisterValidationSchema = Joi.object({
   createdBy: Joi.string(),
@@ -12,7 +12,7 @@ const jobRegisterValidationSchema = Joi.object({
   price: Joi.number().required(),
   tryIn: Joi.boolean().required(),
   comments: Joi.string(),
-  status: Joi.string().valid("cast", "build", "finish").required()
+  status: Joi.string().valid("cast", "build", "finish").required(),
 });
 
 const jobUpdateValidationSchema = Joi.object({
@@ -27,10 +27,7 @@ const jobUpdateValidationSchema = Joi.object({
   price: Joi.number(),
   tryIn: Joi.boolean(),
   comments: Joi.string(),
-  status: Joi.string().valid("cast", "build", "finish")
+  status: Joi.string().valid("cast", "build", "finish"),
+});
 
-  });
-  
-
-
-export {jobRegisterValidationSchema,jobUpdateValidationSchema}
+export { jobRegisterValidationSchema, jobUpdateValidationSchema };
