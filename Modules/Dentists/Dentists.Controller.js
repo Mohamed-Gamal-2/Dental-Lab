@@ -1,6 +1,6 @@
 import adminModel from "../../Database/Models/Admin.Model.js";
 import DentistsModel from "../../Database/Models/Dentists.Model.js";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import jobModel from "../../Database/Models/Jobs.Model.js";
 
@@ -17,20 +17,19 @@ async function deleteDentist(req, res) {
     const { id: dentistId } = req.params;
     const isFound = await DentistsModel.findById(dentistId);
     if (isFound) {
-      if (!isFound.cases){
+      if (isFound.cases.length == 0) {
         const deletedDentist = await DentistsModel.findByIdAndDelete(dentistId);
         res.status(200).json({
           status: "Success",
           message: "Dentist Deleted",
           data: deletedDentist,
         });
- 
-      }else{
-res.json({
-    status: "Fail",
-    message:
-      "Deletion of this dentist is not allowed as it is associated with jobs.",
-  });
+      } else {
+        res.json({
+          status: "Fail",
+          message:
+            "Deletion of this dentist is not allowed as it is associated with jobs.",
+        });
       }
     } else
       res.status(404).json({ status: "Fail", message: "Dentist not found" });
@@ -82,70 +81,95 @@ async function getDentist(req, res) {
   }
 }
 
-
 async function addDentist(req, res) {
-  try{
+  try {
     const decoded = jwt.verify(req.headers.token, "bl7 5ales");
     const { id: creatorId } = decoded;
     const admin = await adminModel.findById(creatorId);
     if (admin) {
-      const hashedPassword = bcrypt.hashSync(req.body.password, 4);
-      const newuser = await DentistsModel.insertMany([
-        { ...req.body, createdBy: creatorId, password: hashedPassword },
-      ]);
+
+      let newuser;
+      if(req.body.password){
+
+        const hashedPassword = bcrypt.hashSync(req.body.password, 4);
+         newuser = await DentistsModel.insertMany([
+          { ...req.body, createdBy: creatorId, password: hashedPassword },
+        ]);
+      }
+      else{
+       const newBody = {...req.body}
+       delete newBody.password
+         newuser = await DentistsModel.insertMany([
+          { ...newBody, createdBy: creatorId },
+        ]);
+      }
       res
         .status(200)
         .json({ status: "Success", message: "User added", data: newuser });
     } else {
       res.status(401).json({ status: "Fail", message: "Unauthorized" });
     }
-  } catch (error) {
+  } 
+  catch (error) {
     res.status(400).json({ status: "Fail", message: error });
   }
 }
 
-
-
-async function loginDentist(req, res){
+async function loginDentist(req, res) {
   try {
-
-   
-
-    if(!req.headers.token){
-      const {email, password}= req.body
+      const { email, password } = req.body;
       let foundedDentist = await DentistsModel.findOne({ email });
-      if(!foundedDentist){
-        console.log("no dentist found")
-        return res.status(401).json({message: "no dentist found"})
+      if (!foundedDentist) {
+        console.log("no dentist found");
+        return res.status(401).json({ message: "no dentist found" });
       }
-      const matched = bcrypt.compareSync(password,foundedDentist.password);
-      if(!matched){
-        console.log("invalid email or password")
-        return res.status(401).json({message: "invalid email or password"})
-          
-        }
-           const jobs = await jobModel.find({doctorId:foundedDentist.id})
-        const token = jwt.sign({ id: foundedDentist.id }, 'bl7 5ales');
-        console.log('logged in successfully', token);
-        return res.status(200).json({ message: 'logged in successfully', token, foundedDentist, jobs });
-    }
-    const decoded = jwt.verify(req.headers.token, "bl7 5ales");
-    if(!decoded){
-      console.log("user not authorized")
-        return res.status(401).json({message: "user not authorized"})
-    }
-    let foundedDentist = await DentistsModel.findById(decoded.id);
-    if(!foundedDentist){
-      console.log("no dentist found")
-        return res.status(401).json({message: "no dentist found"})
-    }
-    const jobs = await jobModel.find({doctorId:foundedDentist.id})
-    return res.status(200).json({ message: ' data received successfully', foundedDentist, jobs });
-  
+      const matched = bcrypt.compareSync(password, foundedDentist.password);
+      if (!matched) {
+        console.log("invalid email or password");
+        return res.status(401).json({ message: "invalid email or password" });
+      }
+      const jobs = await jobModel.find({ doctorId: foundedDentist.id });
+      const token = jwt.sign({ id: foundedDentist.id }, "bl7 5ales");
+      console.log("logged in successfully", token);
+      return res.status(200).json({
+        message: "logged in successfully",
+        token,
+        foundedDentist,
+        jobs,
+      });
   } catch (err) {
-    console.log("catch error: ",err);
-    return res.status(400).json({ message: "catch error: ",err });
+    console.log("catch error: ", err);
+    return res.status(400).json({ message: "catch error: ", err });
   }
 }
 
-export { getAllDentists, deleteDentist, updateDentist, getDentist, addDentist,loginDentist};
+async function getDentistEndUser(req,res){
+try{
+
+  const dentistId = req.decodedToken.id
+  let foundedDentist = await DentistsModel.findById(dentistId);
+  if (!foundedDentist) {
+    console.log("no dentist found");
+    return res.status(401).json({ message: "no dentist found" });
+  }
+  const jobs = await jobModel.find({ doctorId: foundedDentist.id });
+  return res
+    .status(200)
+    .json({ message: " data received successfully", foundedDentist, jobs });
+
+}catch(err){
+  console.log("catch error: ", err);
+  return res.status(400).json({ message: "catch error: ", err });
+}
+
+}
+
+export {
+  getAllDentists,
+  deleteDentist,
+  updateDentist,
+  getDentist,
+  addDentist,
+  loginDentist,
+  getDentistEndUser
+};

@@ -4,7 +4,7 @@ import {
   deleteDentist,
   getAllDentists,
   getDentist,
-  updateDentist,loginDentist
+  updateDentist,loginDentist,getDentistEndUser
 } from "./Dentists.Controller.js";
 import validation from "../../middleware/validation.js";
 import auth from "../../middleware/auth.js";
@@ -25,6 +25,7 @@ dentistsRoutes.patch(
 dentistsRoutes.get("/dentist/:id", auth, getDentist);
 dentistsRoutes.post("/dentist/add",validation(dentistRegisterValidationSchema, "body"),addDentist);
 dentistsRoutes.post("/dentist/login",validation(dentistLoginValidationSchema, "body"),loginDentist);
+dentistsRoutes.get("/getDentistEndUser",auth,getDentistEndUser);
 
 
 export default dentistsRoutes;
