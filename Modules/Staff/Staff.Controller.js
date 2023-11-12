@@ -49,17 +49,20 @@ const updataStaff = async (req, res, next) => {
   try {
     const decoded = jwt.verify(req.headers.token, "bl7 5ales");
     const { id: creatorId } = decoded;
+
     const admin = await adminModel.findById(creatorId);
     if (admin) {
-      const { id } = req.params;
-      const isFound = await staffModel.findById(id);
+      const staffId = req.params.id;
+      const isFound = await staffModel.findById(staffId);
       if (isFound) {
-        const staff = await staffModel.findOneAndUpdate(
-          { _id: id },
+        const staff = await staffModel.findByIdAndUpdate(
+          staffId,
           { ...req.body },
           { new: true }
         );
-        res.status(200).json({ status: "success", data: staff });
+        res
+          .status(200)
+          .json({ status: "success", message: "Staff Updated", data: staff });
       } else {
         res.status(404).json({ status: "Fail", message: "Staff not found" });
       }
