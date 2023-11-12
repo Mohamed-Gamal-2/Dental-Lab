@@ -12,7 +12,6 @@ const jobSchema = new Schema(
     },
     serial: {
       type: Number,
-      unique: true,
       required: true,
     },
     doctorId: {
@@ -23,40 +22,24 @@ const jobSchema = new Schema(
     typeOfWork: {
       type: String,
       enum: ["PFM", "Zircon"],
+
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["cast", "build", "finish"],
       required: true,
     },
     teethNumber: [
       {
-        type: Number,
-        validate: {
-          validator: Number.isInteger,
-          message: "Each value in teethNumber array must be an integer.",
-        },
+        type: String,
         required: true,
-        min: 1,
-        max: 32,
       },
     ],
+
     shade: {
       type: String,
-      enum: [
-        "A1",
-        "A2",
-        "A3",
-        "A3.5",
-        "A4",
-        "B1",
-        "B2",
-        "B3",
-        "B4",
-        "C1",
-        "C2",
-        "C3",
-        "C4",
-        "D2",
-        "D3",
-        "D4",
-      ],
+      required: true,
     },
     deadLine: {
       type: Date,
@@ -66,11 +49,11 @@ const jobSchema = new Schema(
       type: Number,
       required: true,
     },
+    comments: String,
     tryIn: {
       type: Boolean,
       required: true,
     },
-    materialOfPorclain: String,
   },
   { timestamps: true }
 );

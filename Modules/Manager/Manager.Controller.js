@@ -93,7 +93,12 @@ const signInManager = async (req, res) => {
     if (!matched) {
       if (foundedManager.password == password) {
         login();
-      } else res.status(401).json({ message: "invalid username or password" });
+      } else {
+        console.log("invalid username or password");
+        return res
+          .status(401)
+          .json({ message: "invalid username or password" });
+      }
     }
   } catch (err) {
     console.log("catch error: ", err);

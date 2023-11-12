@@ -1,4 +1,5 @@
 import adminModel from "../../Database/Models/Admin.Model.js";
+import DentistsModel from "../../Database/Models/Dentists.Model.js";
 import jobModel from "../../Database/Models/Jobs.Model.js";
 import jwt from "jsonwebtoken";
 
@@ -16,13 +17,8 @@ async function allJobs (req,res){
 // add Job
 async function addJob(req, res) {
   try{
-    const {serial}=req.body
     const decoded = jwt.verify(req.headers.token, "bl7 5ales");
     const { id: createdBy } = decoded;
-    const JobFounded = await jobModel.findOne({serial});
-    if(JobFounded){
-      return res.status(401).json({ message: " This Serial is already exist" })
-    }else{
       const adminFounded = await adminModel.findById(createdBy)
     if(!adminFounded){
       console.log(" Not Allowed , You aren't Admin")
@@ -32,7 +28,11 @@ async function addJob(req, res) {
             ...req.body,
             createdBy,
           });
-
+        let dentist = await DentistsModel.findByIdAndUpdate(
+          req.body.doctorId,
+          { $push: { cases: newJob[0]._id } },
+          { new: true }
+        );
       res
         .status(200)
         .json({
@@ -40,7 +40,7 @@ async function addJob(req, res) {
           message: "A New Job Added successfully",
           newJob
         });
-    }}
+    }
   } catch (error) {
     res.status(400).json({ status: "fail", message: "error",error });
   }
@@ -94,10 +94,11 @@ async function updateJob(req, res) {
           deadLine: req.body.deadLine,
           price: req.body.price,
           tryIn: req.body.tryIn,
-          materialOfPorclain: req.body.materialOfPorclain, // Corrected the field name
+          status: req.body.status,
+          comments: req.body.comments, // Corrected the field name
         },
         { new: true }
-        );
+      );
         
         if (updatedJob) {
           return res.status(200).json({ message: "Job updated", updatedJob });
