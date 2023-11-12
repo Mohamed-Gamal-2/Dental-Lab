@@ -94,10 +94,11 @@ async function updateJob(req, res) {
           deadLine: req.body.deadLine,
           price: req.body.price,
           tryIn: req.body.tryIn,
-          materialOfPorclain: req.body.materialOfPorclain, // Corrected the field name
+          status: req.body.status,
+          comments: req.body.comments, // Corrected the field name
         },
         { new: true }
-        );
+      );
         
         if (updatedJob) {
           return res.status(200).json({ message: "Job updated", updatedJob });
