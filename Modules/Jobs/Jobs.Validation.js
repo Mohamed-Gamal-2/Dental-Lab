@@ -6,7 +6,7 @@ const jobRegisterValidationSchema = Joi.object({
   doctorId: Joi.string().required(),
   pationName: Joi.string()
     .max(40)
-    .pattern(/^[a-zA-Z]+$/)
+    .pattern(/^[a-zA-Z\s()]+$/)
     .required(),
   typeOfWork: Joi.string().valid("PFM", "Zircon").required(),
   teethNumber: Joi.array().items(Joi.string()).required(),
