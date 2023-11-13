@@ -8,7 +8,7 @@ const dentistRegisterValidationSchema = Joi.object({
     .required(),
   address: Joi.string().min(4).required(),
   email: Joi.string()
-    .pattern(/^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/)
+    .pattern(/^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/)
     .required(),
   password: Joi.string()
     .pattern(/^[A-Za-z0-9!@#$%^&*()-_+=]{4,}$/)
@@ -21,13 +21,13 @@ const dentistUpdateValidationSchema = Joi.object({
   phone: Joi.string().pattern(/01(0|1|2|5)[0-9]{8}$/),
   address: Joi.string().min(4),
   email: Joi.string().pattern(
-    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/
+    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/
   ),
 });
 
 const dentistLoginValidationSchema = Joi.object({
   email: Joi.string().pattern(
-    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/
+    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/
   ),
   password: Joi.string().pattern(/^[A-Za-z0-9!@#$%^&*()-_+=]{4,}$/),
 });
@@ -35,10 +35,10 @@ const dentistLoginValidationSchema = Joi.object({
 const dentistUpdateEndUserValidationSchema = Joi.object({
   type: Joi.string().valid("Indvidual", "Hospital", "Clinic"),
   name: Joi.string().min(3).max(30),
-  phone: Joi.string().pattern(/01(0|1|2|5)[0-9]{8}/),
+  phone: Joi.string().pattern(/01(0|1|2|5)[0-9]{8}$/),
   address: Joi.string().min(4),
   email: Joi.string().pattern(
-    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).com/
+    /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/
   ),
   password: Joi.string()
     .pattern(/^[A-Za-z0-9!@#$%^&*()-_+=]{4,}$/)
