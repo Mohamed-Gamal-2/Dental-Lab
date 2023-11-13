@@ -2,7 +2,7 @@ import Joi from "joi";
 
 const staffRegisterValidationSchema = Joi.object({
   createdBy: Joi.string(), // You can specify ObjectId validation here
-  ssn: Joi.string()
+  ssn: Joi.number()
     .required()
     .pattern(/^\d{14}$/),
   name: Joi.string().required().min(3).max(30),
@@ -20,7 +20,7 @@ const staffRegisterValidationSchema = Joi.object({
 });
 
 const staffUpdateValidationSchema = Joi.object({
-  ssn: Joi.pattern(/^\d{14}$/),
+  ssn: Joi.number().pattern(/^\d{14}$/),
   name: Joi.string().min(3).max(30),
   jobTitle: Joi.string().min(3).max(30),
   age: Joi.number().integer().max(80).min(15),
