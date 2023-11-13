@@ -8,6 +8,7 @@ const jobSchema = new Schema(
     },
     pationName: {
       type: String,
+      match: /^[a-zA-Z\s()]+$/,
       required: true,
     },
     serial: {
@@ -40,7 +41,9 @@ const jobSchema = new Schema(
     shade: {
       type: String,
       required: true,
+      match: /^[a-zA-Z0-9.]*$/,
     },
+
     deadLine: {
       type: Date,
       required: true,

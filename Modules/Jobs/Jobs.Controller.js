@@ -63,7 +63,7 @@ async function deleteJob(req, res) {
       if (jobDeleted) {
         res.status(201).json({ massage: "Job deleted", allJobs });
       } else {
-        res.status(400).json({ massage: "Job not found" });
+        res.status(404).json({ massage: "Job not found" });
       }}
   } catch (error) {
     res.status(400).json({ status: "fail", message: "error" });
@@ -95,7 +95,7 @@ async function updateJob(req, res) {
           price: req.body.price,
           tryIn: req.body.tryIn,
           status: req.body.status,
-          comments: req.body.comments, // Corrected the field name
+          comments: req.body.comments, 
         },
         { new: true }
       );
