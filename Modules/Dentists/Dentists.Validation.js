@@ -32,12 +32,6 @@ const dentistLoginValidationSchema = Joi.object({
   password: Joi.string().pattern(/^[A-Za-z0-9!@#$%^&*()-_+=]{4,}$/),
 });
 
-export {
-  dentistRegisterValidationSchema,
-  dentistUpdateValidationSchema,
-  dentistLoginValidationSchema,
-};
-
 const dentistUpdateEndUserValidationSchema = Joi.object({
   type: Joi.string().valid("Indvidual", "Hospital", "Clinic"),
   name: Joi.string().min(3).max(30),
