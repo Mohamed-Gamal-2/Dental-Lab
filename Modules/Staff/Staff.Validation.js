@@ -20,7 +20,7 @@ const staffRegisterValidationSchema = Joi.object({
 });
 
 const staffUpdateValidationSchema = Joi.object({
-  ssn: Joi.string().pattern(/^\d{14}$/),
+  ssn: Joi.pattern(/^\d{14}$/),
   name: Joi.string().min(3).max(30),
   jobTitle: Joi.string().min(3).max(30),
   age: Joi.number().integer().max(80).min(15),
