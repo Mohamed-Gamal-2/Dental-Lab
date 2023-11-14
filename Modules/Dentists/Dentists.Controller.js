@@ -61,9 +61,11 @@ async function updateDentist(req, res) {
       if (isFound) {
         if (req.body.password) {
           const hashedPassword = bcrypt.hashSync(req.body.password, 4);
-          dentist = await DentistsModel.findByIdAndUpdate([
-            { ...req.body, password: hashedPassword },
-          ]);
+          dentist = await DentistsModel.findByIdAndUpdate(dentistId, {
+            ...req.body,
+            password: hashedPassword,
+          });
+          console.log(dentist);
         } else {
           dentist = await DentistsModel.findByIdAndUpdate(
             dentistId,
