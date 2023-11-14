@@ -11,7 +11,9 @@ const dentistRegisterValidationSchema = Joi.object({
     .pattern(/^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/)
     .required(),
   password: Joi.string()
-    .pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/)
+    .pattern(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/
+    )
     .allow(""),
 });
 
@@ -23,13 +25,20 @@ const dentistUpdateValidationSchema = Joi.object({
   email: Joi.string().pattern(
     /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/
   ),
+  password: Joi.string()
+    .pattern(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/
+    )
+    .allow(""),
 });
 
 const dentistLoginValidationSchema = Joi.object({
   email: Joi.string().pattern(
     /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/
   ),
-  password: Joi.string().pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/),
+  password: Joi.string().pattern(
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/
+  ),
 });
 
 const dentistUpdateEndUserValidationSchema = Joi.object({
@@ -41,7 +50,9 @@ const dentistUpdateEndUserValidationSchema = Joi.object({
     /^[a-z]+([a-z]|[0-9]|_|.)*@(gmail|yahoo|hotmail).(com)$/
   ),
   password: Joi.string()
-    .pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/)
+    .pattern(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$/
+    )
     .allow(""),
 });
 
