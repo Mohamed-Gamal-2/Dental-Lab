@@ -81,19 +81,19 @@ const signInManager = async (req, res) => {
     const {userName, password} = req.body
     const foundedManager = await managerModel.findOne({userName})
     if(!foundedManager){
-      console.log("no managers found")
-      res.status(401).json({message: "no managers found"})
+      console.log("no manager found")
+      res.status(401).json({message: "no manager found"})
     }
     else{
      const matched = bcrypt.compareSync(password, foundedManager.password);
      if(!matched){
-      console.log("password incorrect")
-      res.status(401).json({message: "password incorrect"})
+      console.log("invalid username or password")
+      res.status(401).json({message: "invalid username or password"})
      } 
      else {
       const token = jwt.sign({ id: foundedManager.id }, 'bl7 5ales');
-      console.log("manager logged in successfully")
-      res.status(401).json({message: "manager logged in successfully", token})
+      console.log("logged in successfully")
+      res.status(401).json({message: "logged in successfully", token})
      }
     }
   } catch (err) {
