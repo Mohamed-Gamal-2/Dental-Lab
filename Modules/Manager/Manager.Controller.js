@@ -93,7 +93,7 @@ const signInManager = async (req, res) => {
      else {
       const token = jwt.sign({ id: foundedManager.id }, 'bl7 5ales');
       console.log("logged in successfully")
-      res.status(401).json({message: "logged in successfully", token})
+      res.status(200).json({message: "logged in successfully", token})
      }
     }
   } catch (err) {
