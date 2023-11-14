@@ -78,27 +78,23 @@ const addManager = async (req, res) => {
 
 const signInManager = async (req, res) => {
   try {
-    const login = () => {
-      const token = jwt.sign({ id: foundedManager.id }, "bl7 5ales");
-      console.log("logged in successfully", token);
-      return res.status(200).json({ message: "logged in successfully", token });
-    };
-    const { userName, password } = req.body;
-    let foundedManager = await managerModel.findOne({ userName });
-    if (!foundedManager) {
-      console.log("no manager found");
-      return res.status(401).json({ message: "no manager found" });
+    const {userName, password} = req.body
+    const foundedManager = await managerModel.findOne({userName})
+    if(!foundedManager){
+      console.log("no managers found")
+      res.status(401).json({message: "no managers found"})
     }
-    const matched = bcrypt.compareSync(password, foundedManager.password);
-    if (!matched) {
-      if (foundedManager.password == password) {
-        login();
-      } else {
-        console.log("invalid username or password");
-        return res
-          .status(401)
-          .json({ message: "invalid username or password" });
-      }
+    else{
+     const matched = bcrypt.compareSync(password, foundedManager.password);
+     if(!matched){
+      console.log("password incorrect")
+      res.status(401).json({message: "password incorrect"})
+     } 
+     else {
+      const token = jwt.sign({ id: foundedManager.id }, 'bl7 5ales');
+      console.log("manager logged in successfully")
+      res.status(401).json({message: "manager logged in successfully", token})
+     }
     }
   } catch (err) {
     console.log("catch error: ", err);
